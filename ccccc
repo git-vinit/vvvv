@@ -245,3 +245,41 @@ result = hashlib.md5(Text.encode())
 
 print(result.digest()) 
 print(result.hexdigest())
+
+
+
+
+
+
+from __future__ import print_function
+ 
+# Variables Used
+q = 71    # q
+alpha = 7      # alpha
+ 
+Xa = 5     # a
+Yb = 12     # b
+ 
+# Begin
+print( "Publicly Shared Variables:")
+print( "    Publicly Shared Prime: " , q)
+print( "    Publicly Shared Base:  " , alpha )
+ 
+# Alice Sends Bob A = g^a mod p
+A = (alpha * Xa) % q
+print( "\n  Alice Sends Over Public Chanel: " , A )
+ 
+# Bob Sends Alice B = g^b mod p
+B = (alpha * Yb) % q
+print( "Bob Sends Over Public Chanel: ", B )
+ 
+print( "\n------------\n" )
+print( "Privately Calculated Shared Secret:" )
+# Alice Computes Shared Secret: s = B^a mod p
+Ka = (B ** Xa) % alpha
+print( "    Alice Shared Secret: ", Ka )
+ 
+# Bob Computes Shared Secret: s = A^b mod p
+Kb = (A ** Yb) % alpha
+print( "    Bob Shared Secret: ", Kb )
+
