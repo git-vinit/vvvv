@@ -1,285 +1,33 @@
-simple columnar
-
-
-def split_len(seq, length):
-   return [seq[i:i + length] for i in range(0, len(seq), length)]
-def encode(key, plaintext):
-    order = {int(val): num for num, val in enumerate(key)  }
-    ciphertext = ''
-
-    for index in sorted(order.keys()):
-        for part in split_len(plaintext, len(key)):
-          try:
-              ciphertext += part[order[index]]
-          except IndexError:
-              continue
-    return ciphertext
-text=input("enter text ")
-columnkey=input("enter reading column sequence ")
-print("Encrypted text=",encode(columnkey, text))
-
-
-
-rail fence cipher
-
-
-
-
-def main():
-    # get the number of layers to rail encrypt
-    layers = int(input("Enter the number of layers: "))
-     # get the plain text
-    plain_text = input("Enter the plain text: ")
-     # encrypt the plain text
-    cipher_text = encrypt(layers, plain_text)
-    print("Encrypted text: " + cipher_text)
-def encrypt(layers, plain_text):
-     # remove all white spaces in text
-     plain_text = plain_text.replace(" ", "")
-     # change plain text to upper case
-     plain_text = plain_text.upper()
-     # divide plain text into layers number of strings
-     rail = [""] * layers
-     layer = 0
-     for character in plain_text:
-         rail[layer] += character
-         if layer >= layers - 1:
-             layer = 0
-         else:
-             layer += 1
-     cipher = "".join(rail)
-     return cipher
-if _name_ == '_main_':
-    main()
-    
-    
-  
-  
-  
-  aser cipher
-
-
-
-print ("\n#A python program to illustrate Caesar Cipher Technique.")
-
-def encrypt(text,s):
-    result = ("")
- 
-    # traverse text
-    for i in range(len(text)):   # Hello for(0,5)
-        char = text[i]   #step1 char=h
- 
-        # Encrypt uppercase characters
-        if (char.isupper()): #true
-            
-            result += chr((ord(char) + s - 65) % 26 + 65) #72+3=75-65=10%26=10+65=75 H+3 mod 26
-            
-            #c=(p+3) mod 26
-            #c=72+3=75 -65=10 mod 26=10+65=75
- 
-        # Encrypt lowercase characters
-        else: #false
-            result += chr((ord(char) + s - 97) % 26 + 97)
-            # c=(p+3) mod 26 c=(104+3)-97=107-97=10%26=10+97=107
- #chr(107)
-    return result
-
-
-#check the above function
-
-Technique = input("\n\nEnter Your Choice for Caesar Cipher Technique, \n\ni.e. Either Encrypt or Decrypt, Type ('Encrypt' or 'Decrypt').\n\n")
-
-if Technique =='Encrypt':
-    Text = input("\nEnter the Text You want to be Converted...\n\n")
-    Shift = int(input("\nEnter your Choice for Shift\n\n"))
-    E = encrypt(Text,Shift)
-    print ("\nYour Text      : " + Text)
-    print ("\nShift          : " + str(Shift))
-    print ("\nEncrypted Text : " + E)
-    
-elif Technique =='Decrypt':
-    Text = input("\nEnter the Cipher Text You want to be Decrypted...\n\n")
-    Shift = int(input("\nEnter the Number of Shift provided to You...\n\n"))
-    D = encrypt(Text,(26 - Shift))
-    print ("\nYour Cipher Text    : " + Text)
-    print ("\nShift               : " + str(Shift))
-    print ("\nDecrypted Text      : " + D)
-    
-else :
-    print ("Wrong Choice Please Try Again ... ")
-    
-    
-    
-    
-    
-    monoalphabetic cipher
-
-import random
-alpha = “abcdefghijklmnopqrstuvwxyz”
-
-#Encrypts the plain text message
-
-def encrypt(original, key=None):
-
-if key is None:
-
-l = list(alpha)
-
-random.shuffle(l)
-
-key = “”.join(l)
-
-new = []
-
-for letter in original:
-
-new.append(key[alpha.index(letter)])
-
-return [“”.join(new), key]
-
-#Decrypts the encrypted message
-
-def decrypt(cipher, key=None):
-
-if key is not None:
-
-new = []
-
-for letter in cipher:
-
-new.append(alpha[key.index(letter)])
-
-return “”.join(new)
-
- 
-
-e = encrypt(“monoalphabetic”, None)
-
-print(e) #Prints encrypted message
-
-print(decrypt(e[0], e[1])) #Decodes the message and prints it
-
-
-
-
-practicsl no 4
-
-def generateKey(string, key): 
-  key = list(key) 
-  else: 
-    for i in range(len(string) -len(key)): 
-      key.append(key[i % len(key)]) 
-  return("" . join(key)) 
-  
-def encryption(string, key): 
-  encrypt_text = [] 
-  for i in range(len(string)): 
-    x = (ord(string[i]) +ord(key[i])) % 26
-    x += ord('A') 
-    encrypt_text.append(chr(x)) 
-  return("" . join(encrypt_text)) 
-
-def decryption(encrypt_text, key): 
-  orig_text = [] 
-  for i in range(len(encrypt_text)): 
-    x = (ord(encrypt_text[i]) -ord(key[i]) + 26) % 26
-    x += ord('A') 
-    orig_text.append(chr(x)) 
-  return("" . join(orig_text)) 
-
-if _name_ == "_main_": 
-  string = input("Enter the message: ")
-  keyword = input("Enter the keyword: ")
-  key = generateKey(string, keyword) 
-  encrypt_text = encryption(string,key) 
-  print("Encrypted message:", encrypt_text) 
-  print("Decrypted message:", decryption(encrypt_text, key))
-  
-  
-  
-  
-  
-  practical no 8
-
-import hashlib 
-import hmac
-import base64
-
-
-def make_digest(message, key):
-    
-    key = bytes(key, 'UTF-8')
-    message = bytes(message, 'UTF-8')
-    
-    digester = hmac.new(key, message, hashlib.sha1)
-     #digester.hexdigest()
-    signature1 = digester.digest()
-    
-    
-     #base64.urlsafe_b64encode(bytes(signature1, 'UTF-8'))
-    signature2 = base64.urlsafe_b64encode(signature1)    
-    
-    
-    return str(signature2, 'UTF-8')
-  
-    
-Technique = 'HMAC-SHA1'
-Text = input("\nEnter the Text You want to be Converted...\n\n")
-Key = input("\nEnter The Key of your Choice\n\n")
-E = make_digest(Text, Key)
-print ("\nYour Mode      : " + Technique)
-print ("\nYour Text      : " + Text)
-print ("\nKey            : " + Key)
-print ("\nEncrypted Text : " + E)
-
-
-
-*practical no 7*
-
-
-Import hashlib
-
-Text = input(" Enter text you want to be converted") 
-
-result = hashlib.md5(Text.encode()) 
-
-print(result.digest()) 
-print(result.hexdigest())
-
-
-
-
-
-
-from __future__ import print_function
- 
-# Variables Used
-q = 71    # q
-alpha = 7      # alpha
- 
-Xa = 5     # a
-Yb = 12     # b
- 
-# Begin
-print( "Publicly Shared Variables:")
-print( "    Publicly Shared Prime: " , q)
-print( "    Publicly Shared Base:  " , alpha )
- 
-# Alice Sends Bob A = g^a mod p
-A = (alpha * Xa) % q
-print( "\n  Alice Sends Over Public Chanel: " , A )
- 
-# Bob Sends Alice B = g^b mod p
-B = (alpha * Yb) % q
-print( "Bob Sends Over Public Chanel: ", B )
- 
-print( "\n------------\n" )
-print( "Privately Calculated Shared Secret:" )
-# Alice Computes Shared Secret: s = B^a mod p
-Ka = (B ** Xa) % alpha
-print( "    Alice Shared Secret: ", Ka )
- 
-# Bob Computes Shared Secret: s = A^b mod p
-Kb = (A ** Yb) % alpha
-print( "    Bob Shared Secret: ", Kb )
-
+*ROLL A BALL*
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playercontroller : MonoBehaviour
+{
+    public float speed;
+    private Rigidbody rb;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        rb.AddForce(movement*speed);
+    }
+    public void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag=="pickup"){
+            other.gameObject.SetActive(false);
+        }
+
+    }
+    // Start is called before the first frame update
+
+}
